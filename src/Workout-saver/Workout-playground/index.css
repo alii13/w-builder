@@ -343,8 +343,18 @@ input.ant-input.selected-exercise-input {
 .exercises-zone {
     display: flex;
     justify-content: center;
+    height: 100%;
+}
+.exercises-zone div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 .droppable-area{
     height:100%;
     overflow-y: scroll;
+}
+.dragging{
+    background-color: #109CF1;
+    color: white;
 }

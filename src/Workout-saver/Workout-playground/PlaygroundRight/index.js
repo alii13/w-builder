@@ -51,11 +51,11 @@ export default class index extends Component {
             </div>
           </div>
           <div className="playground-right-body">
-            <Row
+            <div
               gutter={{ xs: 9, sm: 16, md: 24, lg: 32 }}
               className="exercises-zone"
             >
-              <Droppable droppableId={"right-column"}>
+              <Droppable droppableId={"right-column"} direction="horizontal">
                 {(provided) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                     {
@@ -73,7 +73,7 @@ export default class index extends Component {
                   </div>
                 )}
               </Droppable>
-            </Row>
+            </div>
           </div>
         </div>
       </>

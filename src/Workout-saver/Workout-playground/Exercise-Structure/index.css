@@ -3,6 +3,7 @@
     width: 140px;
     border: 1px solid #EBEFF2;
     border-radius: 4px;
+    margin: 0 3px;
     z-index: 1;
 }
 .exercise-image-wrapper{

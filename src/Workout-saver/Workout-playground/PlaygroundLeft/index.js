@@ -6,10 +6,7 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import SelectedExercise from "../SelectedExercise/index";
 import { Droppable } from "react-beautiful-dnd";
 
-
 export default class index extends Component {
-
-
   onCheckboxChange = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
@@ -33,7 +30,7 @@ export default class index extends Component {
               <Button type="primary" className="create-circuit">
                 <div className="wrapper-center">
                   <BiRepeat className="repeat" />
-                  <p className="circuit-text">Save Workout</p>
+                  <p className="circuit-text">Create Circuit</p>
                 </div>
               </Button>
               <Button type="danger " className="delete-circuit">
@@ -82,11 +79,20 @@ export default class index extends Component {
           <div className="playground-left-body">
             <Droppable droppableId={"left-column"}>
               {(provided) => (
-                <div className="droppable-area" ref={provided.innerRef} {...provided.droppableProps}>
-                  {this.props.selectedExercise.map((exercise,index) => (
-                    <SelectedExercise key={exercise.key} exercise={exercise} index={index}  />
+                <div
+                  className="droppable-area"
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {this.props.selectedExercise.map((exercise, index) => (
+                    <SelectedExercise
+                      key={exercise.key}
+                      exercise={exercise}
+                      index={index}
+                    />
                   ))}
                   {provided.placeholder}
+
                 </div>
               )}
             </Droppable>

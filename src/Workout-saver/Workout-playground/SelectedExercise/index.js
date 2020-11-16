@@ -7,15 +7,17 @@ import { GrDrag } from "react-icons/gr";
 export default class index extends Component {
   render() {
     const { Option } = Select;
+    console.log(this.props);
     return (
       <Draggable draggableId={this.props.exercise.key} index={this.props.index}>
-        {(provided) => (
+        {(provided, snapshot) => (
           <div
             {...provided.draggableProps}
             {...provided.draggableProps}
+            
             ref={provided.innerRef}
           >
-            <div className="selected-exercise">
+            <div className={(snapshot.isDragging)?("selected-exercise dragging"):("selected-exercise")}>
               <div className="selected-exercise-left">
                 <div className="checkbox-wrapper">
                   <Checkbox
