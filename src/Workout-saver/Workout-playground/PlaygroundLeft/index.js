@@ -5,8 +5,12 @@ import { BiRepeat } from "react-icons/bi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import SelectedExercise from "../SelectedExercise/index";
 import { Droppable } from "react-beautiful-dnd";
+import Placeholder from "./Placeholder";
 
 export default class index extends Component {
+  state = {
+    highlighterClass: "",
+  };
   onCheckboxChange = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
@@ -14,9 +18,18 @@ export default class index extends Component {
   handleCircuitWorkout(value) {
     console.log(`selected ${value}`);
   }
+  changeBorderColor = (value) => {
+    this.setState({
+      highlighterClass: value ? "highlight" : "",
+    });
+  };
+  componentDidMount() {
+    this.props.dragStart(this.changeBorderColor);
+  }
 
   render() {
     const { Option } = Select;
+    console.log(this.props.highlighterClass);
 
     return (
       <>
@@ -53,7 +66,7 @@ export default class index extends Component {
               </div>
             </div>
           </div>
-          <div className="playground-left-bottom-header">
+          <div className={"playground-left-bottom-header"}>
             <div className="exercise-name">
               <p className="exercise-description">Exercise Name</p>
             </div>
@@ -76,23 +89,32 @@ export default class index extends Component {
               </div>
             </div>
           </div>
-          <div className="playground-left-body">
+          <div
+            className={
+              this.state.highlighterClass === ""
+                ? "playground-left-body"
+                : "playground-left-body bg-drag"
+            }
+          >
             <Droppable droppableId={"left-column"}>
-              {(provided) => (
+              {(provided,snapshot) => (
                 <div
-                  className="droppable-area"
                   ref={provided.innerRef}
                   {...provided.droppableProps}
+                  className={(snapshot.isDraggingOver && this.props.selectedExercise.length>0)?("droppable-area column-drag"):("droppable-area")}
                 >
-                  {this.props.selectedExercise.map((exercise, index) => (
+                  {(this.props.selectedExercise.length<1)?(
+                    <div className="drag-drop-placeholder">
+                      <Placeholder/>
+                      </div>
+                  ):(this.props.selectedExercise.map((exercise, index) => (
                     <SelectedExercise
                       key={exercise.key}
                       exercise={exercise}
                       index={index}
                     />
-                  ))}
+                  )))}
                   {provided.placeholder}
-
                 </div>
               )}
             </Droppable>

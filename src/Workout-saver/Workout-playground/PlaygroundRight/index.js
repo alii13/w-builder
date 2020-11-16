@@ -6,6 +6,31 @@ import { HiOutlineFilter } from "react-icons/hi";
 import { Droppable } from "react-beautiful-dnd";
 
 export default class index extends Component {
+  state = {
+    searchText: "",
+    exercises: this.props.exercises,
+    searchExercises: [],
+  };
+  
+  static getDerivedStateFromProps(nextProps, prevState) {
+
+    let newSearchExercises;
+    console.log(nextProps.draggedExerciseName)
+    if (nextProps.draggedExerciseName !== "") {
+      newSearchExercises = prevState.searchExercises.filter(
+        (exercise) => exercise.ExerciseName !== nextProps.draggedExerciseName
+      );
+      console.log(newSearchExercises)
+      return {
+        searchExercises: newSearchExercises,
+
+      };
+    }
+    return null
+  }
+
+
+
   handleHideExercise = (checked) => {
     console.log(`switch to ${checked}`);
   };
@@ -13,9 +38,22 @@ export default class index extends Component {
   handleSecChnage(value) {
     console.log(`selected ${value}`);
   }
+  handleExerciseSearch = (e) => {
+    
+    const searchExercises = this.props.exercises.filter((exercise) =>
+      exercise.ExerciseName.toLowerCase().includes(this.state.searchText.toLowerCase())
+    );
+
+    this.props.handleChildSearchExercises(searchExercises);
+   
+    this.setState({
+      searchText: e.target.value,
+      searchExercises: searchExercises,
+    });
+  };
 
   render() {
-    console.log(this.props.exercises)
+    
     return (
       <>
         <div className="playground-right">
@@ -24,8 +62,10 @@ export default class index extends Component {
               <div className="search">
                 <Input
                   prefix={<BiSearchAlt2 />}
+                  onChange={this.handleExerciseSearch}
                   className="search-input"
                   placeholder="Basic usage"
+                  value={this.state.searchText}
                 />
               </div>
               <div className="search-filter">
@@ -55,20 +95,34 @@ export default class index extends Component {
               gutter={{ xs: 9, sm: 16, md: 24, lg: 32 }}
               className="exercises-zone"
             >
-              <Droppable droppableId={"right-column"} direction="horizontal">
+              <Droppable
+                droppableId={"right-column"}
+                isDropDisabled={true}
+                direction="horizontal"
+              >
                 {(provided) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {
-                      this.props.exercises.map((exercise, index) => (
-                        <Exercise
-                          ExerciseName={exercise.ExerciseName}
-                          src={exercise.src}
-                          key={exercise.key}
-                          exercise={exercise}
-                          index={index}
-                          alt={exercise.key}
-                        />
-                      ))}
+                    {this.state.searchText === ""
+                      ? this.props.exercises&&this.props.exercises.map((exercise, index) => (
+                          <Exercise
+                            ExerciseName={exercise.ExerciseName}
+                            src={exercise.src}
+                            key={exercise.key}
+                            exercise={exercise}
+                            index={index}
+                            alt={exercise.key}
+                          />
+                        ))
+                      : this.state.searchExercises.map((exercise, index) => (
+                          <Exercise
+                            ExerciseName={exercise.ExerciseName}
+                            src={exercise.src}
+                            key={exercise.key}
+                            exercise={exercise}
+                            index={index}
+                            alt={exercise.key}
+                          />
+                        ))}
                     {provided.placeholder}
                   </div>
                 )}

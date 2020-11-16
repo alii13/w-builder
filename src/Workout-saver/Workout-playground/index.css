@@ -174,16 +174,18 @@ input.ant-input.selected-exercise-input {
     width: 70px;
     color: rgba(51, 77, 110, 0.85);
 }
-.res-seconds-btn > .ant-select-single.ant-select-show-arrow .ant-select-selection-item{
+
+.res-seconds-btn>.ant-select-single.ant-select-show-arrow .ant-select-selection-item {
     padding-right: 0 !important;
 }
 
-.selected-exercise-dragger{
+.selected-exercise-dragger {
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 20px;
 }
+
 .circuit {
     flex: 0.75;
     display: flex;
@@ -345,16 +347,63 @@ input.ant-input.selected-exercise-input {
     justify-content: center;
     height: 100%;
 }
+
 .exercises-zone div {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
-.droppable-area{
-    height:100%;
+
+.droppable-area {
+    height: 100%;
     overflow-y: scroll;
 }
-.dragging{
-    background-color: #109CF1;
+
+.dragging {
+    background-color: #2ed47a;
     color: white;
+}
+.column-drag{
+    background-color:#109bf111
+
+}
+
+.onDragging {
+    background-color: #ebeff2;
+    transition: background-color ease-in-out 0.15s;
+}
+
+.display-none {
+    display: none !important;
+}
+
+.add-exercise-dragger {
+    display: flex;
+    width: 100%;
+    height: 80px;
+    border: 2px dashed #109CF1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dragger-descripiton {
+    font-weight: 500;
+    font-size:1.3em;
+    color: #109CF1;
+    margin: 0;
+}
+
+.drag-drop-placeholder{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.dnd-image{
+height: auto;
+max-height: 150px;
+max-width: 150px;
+width: 100%;
 }

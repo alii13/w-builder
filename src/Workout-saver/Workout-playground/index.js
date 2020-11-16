@@ -13,6 +13,10 @@ export default class index extends Component {
     selectedExerciseIds: [],
     exerciseData: {},
     selectedExercise: {},
+    highlighterClass: "initial",
+    isDropDisabled: false,
+    draggedExerciseName: "",
+    searchExercises: [],
   };
   componentDidMount() {
     const exerciseIds = [];
@@ -42,6 +46,7 @@ export default class index extends Component {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
+      this.dragStart(false);
       return;
     }
 
@@ -49,6 +54,7 @@ export default class index extends Component {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
+      this.dragStart(false);
       return;
     }
 
@@ -64,10 +70,37 @@ export default class index extends Component {
         selectedExerciseIds: newSelectedExerciseIds,
       });
     } else {
+
+
       // Moving from one list to another
       const startExerciseIDs = this.state.exerciseIds;
       const newStartExerciseIDs = Array.from(startExerciseIDs);
-      newStartExerciseIDs.splice(source.index, 1);
+      let newSearchExercise;
+      let correctSearchIndex = undefined,
+        temp;
+
+
+      if (
+        this.state.searchExercises?.length > 0 &&
+        startExerciseIDs[source.index] !==
+          this.state.searchExercises[source.index]
+      ) {
+        temp = startExerciseIDs.filter((id, index) => {
+          if (id === this.state.searchExercises[source.index].ExerciseName) {
+            correctSearchIndex = index;
+          }
+        });
+        console.log(correctSearchIndex, startExerciseIDs[correctSearchIndex]);
+        newSearchExercise = this.state.searchExercises.filter(
+          (exercise) =>
+            exercise.ExerciseName !== startExerciseIDs[correctSearchIndex]
+        );
+      }
+
+      newStartExerciseIDs.splice(
+        correctSearchIndex === undefined ? source.index : correctSearchIndex,
+        1
+      );
 
       const newFinishExerciseIDs = this.state.selectedExerciseIds;
       newFinishExerciseIDs.splice(destination.index, 0, draggableId);
@@ -76,9 +109,31 @@ export default class index extends Component {
         ...this.state,
         selectedExerciseIds: newFinishExerciseIDs,
         exerciseIds: newStartExerciseIDs,
+        highlighterClass: "",
+        draggedExerciseName:
+          correctSearchIndex === undefined
+            ? ""
+            : startExerciseIDs[correctSearchIndex],
+        searchExercises: newSearchExercise,
       };
       this.setState(newState);
     }
+    this.dragStart(false);
+  };
+
+  
+  handleDragStart = (result) => {
+    const { source } = result;
+
+    if (source.droppableId === "right-column") {
+      this.dragStart(true);
+    }
+  };
+
+  handleSearchExercise = (searchExercises) => {
+    this.setState({
+      searchExercises: searchExercises,
+    });
   };
 
   render() {
@@ -88,15 +143,23 @@ export default class index extends Component {
     const exercises = this.state.exerciseIds.map(
       (exerciseId) => this.state.exerciseData[exerciseId]
     );
-    console.log(this.state.selectedExerciseIds, this.state.exerciseIds);
 
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
+      <DragDropContext
+        onDragEnd={this.onDragEnd}
+        onDragStart={this.handleDragStart}
+      >
         <div className="builder-playground">
           <PlaygroundLeft
             selectedExercise={selectedExercise}
+            dragStart={(click) => (this.dragStart = click)}
           />
-          <PlaygroundRight exercises={exercises} />
+          <PlaygroundRight
+            exercises={exercises}
+            isDropDisabled={this.state.isDropDisabled}
+            draggedExerciseName={this.state.draggedExerciseName}
+            handleChildSearchExercises={this.handleSearchExercise}
+          />
         </div>
       </DragDropContext>
     );

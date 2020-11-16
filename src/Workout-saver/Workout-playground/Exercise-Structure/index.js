@@ -10,7 +10,7 @@ export default function index(props) {
   const IMAGE_URL = `https://img.youtube.com/vi/${imageID}/hqdefault.jpg`;
   return (
     <Draggable draggableId={props.exercise.key} index={props.index}>
-      {(provided, snapshot) => (
+      {(provided) => (
           <div
             {...provided.draggableProps}
             {...provided.draggableProps}
