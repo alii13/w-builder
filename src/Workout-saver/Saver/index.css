@@ -1,0 +1,87 @@
+.builder-saver {
+    background-color: #fff;
+    width: 95%;
+    flex: 0.3;
+    /* padding: 2.5px 0; */
+    margin: 15px auto;
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.14);
+
+}
+.name-workout > input.ant-input{
+    font-weight: 600;
+    font-size: 32px;
+}
+.name-workout > input.ant-input::placeholder{
+    font-weight: 600;
+    font-size: 32px;
+}
+
+.input-wrapper {
+    display: flex;
+}
+
+.builder-input {
+    margin: 24px 33px 0px 33px;
+    flex: 0.4;
+}
+
+.builder-input-class {
+    display: flex;
+    align-items: center;
+}
+
+.input-divider {
+    margin: 10px 24px 0px 33px !important;
+    width: 95%;
+    min-width: 95%;
+}
+
+.builder-input-saver {
+    flex: 1;
+    display: flex;
+    margin: 15px 33px 0px 33px;
+    justify-content: flex-end;
+    align-items: baseline;
+}
+
+.save-button {
+    background-color: #2ED47A !important;
+    box-shadow: 0 4px 10px 0 rgba(16, 156, 241, 0.24) !important;
+    border: none !important;
+    height: 30px;
+    width: 198px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.instruction-wrapper {
+    margin: 24px 33px 24px 33px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.instruction-wrapper .ant-input {
+    background-color: rgba(255, 185, 70, 0.15);
+    height: 25px;
+    width: 233px;
+    color:#43474E;
+    ;
+}
+.instruction-wrapper .ant-input::placeholder { 
+    color: rgba(51, 77, 110, 0.65);
+
+  }
+  .build-workout-link{
+    color: rgba(16, 156, 241, 1);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+
+  }
+  .info-icon{
+      color: rgba(16, 156, 241, 1);
+      font-weight: 500;
+      margin-top: 2px;
+      margin-left: 2px;
+  }

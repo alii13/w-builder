@@ -1,0 +1,350 @@
+.builder-playground {
+    display: flex;
+    flex: 1;
+    background-color: #fff;
+    width: 95%;
+    margin: 15px auto;
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.14);
+}
+
+.playground-left {
+    flex: 0.5;
+    border-right: 0.1px solid rgba(235, 239, 242, 1);
+}
+
+.playground-right {
+    flex: 0.5;
+    border-left: 0.1px solid rgba(235, 239, 242, 1);
+}
+
+.playground-left-header {
+    border-bottom: 1px solid rgba(235, 239, 242, 1);
+    display: flex;
+    height: 70px;
+}
+
+.exercise-name {
+    flex: 0.45;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exercise-analytics {
+    flex: 0.45;
+    display: flex;
+}
+
+.exercise-sets {
+    flex: 0.25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exercise-reps {
+    flex: 0.25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exercise-rest {
+    flex: 0.25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exercise-time {
+    flex: 0.25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exercise-description {
+    margin: 0;
+    font-weight: 500;
+    font-size: 14px;
+    color: #334D6E;
+    ;
+}
+
+.exercise-icon {
+    font-weight: 500;
+    margin-top: 4px;
+    margin-left: 5px !important;
+    margin-left: 2px;
+}
+
+.playground-left-bottom-header {
+    border-bottom: 1px solid rgba(235, 239, 242, 1);
+    height: 40px;
+    display: flex;
+}
+
+.playground-left-body {
+    height: 400px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.selected-exercise {
+    display: flex;
+    height: 90px;
+    border-bottom: 1px solid rgba(235, 239, 242, 1);
+    background-color: #fff;
+}
+
+.selected-exercise-left {
+    display: flex;
+    flex: 0.45;
+}
+
+.checkbox-wrapper {
+    flex: 0.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selected-exercise-image-wrapper {
+    height: 40px;
+    width: 80px;
+    margin-right: 20px;
+    overflow: hidden;
+}
+
+.selected-exercise-image {
+    height: auto;
+    width: 100%;
+    transform: scale(1.35);
+    object-fit: cover;
+}
+
+.selected-exercise-content {
+    flex: 0.8;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.selected-exercise-title {
+    font-weight: 500;
+    font-size: 11px;
+    margin: 0 0px 4px 0;
+}
+
+.selected-exercise-instruction {
+    font-size: 8px;
+    color: rgba(51, 77, 110, 0.45);
+    font-weight: 600;
+    margin: 0;
+}
+
+.selected-exercise-right {
+    flex: 0.475;
+}
+
+.selected-exercise-dragger {
+    flex: 0.075;
+}
+
+.selected-exercise-right {
+    display: flex;
+}
+
+.selected-exercise-input {
+    height: 30px;
+    width: 45px;
+    border-radius: 4px;
+}
+
+input.ant-input.selected-exercise-input {
+    text-align: center;
+    padding: 0;
+    color: rgba(51, 77, 110, 0.85);
+}
+
+.res-seconds-btn {
+    height: 30px;
+    border-radius: 4px;
+    width: 70px;
+    color: rgba(51, 77, 110, 0.85);
+}
+.res-seconds-btn > .ant-select-single.ant-select-show-arrow .ant-select-selection-item{
+    padding-right: 0 !important;
+}
+
+.selected-exercise-dragger{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+.circuit {
+    flex: 0.75;
+    display: flex;
+    align-items: center;
+}
+
+.circuit-workouts {
+    flex: 0.25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 2px;
+}
+
+.create-circuit {
+    background-color: #109CF1;
+    box-shadow: 0px 4px 10px 0px rgba(16, 156, 241, 0.24);
+    border: none;
+    height: 28px;
+    width: 150px;
+    border-radius: 4px;
+    margin: 0 25px 0px 0px;
+}
+
+.circuit-text {
+    margin: 0;
+    font-weight: 600;
+}
+
+.cicruit-btn-text {
+    font-weight: 500 !important;
+    color: #43474E !important;
+    ;
+}
+
+.repeat {
+    margin-right: 5px;
+    margin-top: 2px;
+}
+
+.wrapper-center {
+    display: flex;
+    align-items: center;
+}
+
+.delete-circuit {
+    background-color: rgba(247, 104, 91, 1);
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 4px 10px 0px rgba(16, 156, 241, 0.24);
+    height: 28px;
+    width: 28px;
+    border-radius: 4px;
+}
+
+.circuit-dropdown-select {
+    height: 32px;
+    width: 146px;
+    border-radius: 4px;
+    background-color: rgba(235, 239, 242, 0.75);
+}
+
+/*right-playground-header*/
+
+.playground-right-header {
+    height: 100px;
+    border-bottom: 1px solid rgba(235, 239, 242, 1);
+}
+
+.playground-right-body {
+    height: 410px;
+    border-bottom: 1px solid rgba(235, 239, 242, 1);
+    overflow-y: scroll;
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    margin: 5px 15px 0 15px;
+}
+
+.search {
+    flex: 0.95;
+}
+
+.search-input {
+    background: rgba(235, 239, 242, 0.75);
+    border-radius: 3.5px;
+}
+
+.search-input>input.ant-input {
+    background-color: rgba(235, 239, 242, 0.75) !important;
+    font-weight: 500!important;
+}
+
+.search-input>input.ant-input::placeholder {
+    color: #9b9b9c;
+    font-weight: 500;
+}
+
+.search-filter {
+    flex: 0.05;
+    margin-left: 10px;
+}
+
+.filter-wrapper {
+    background: rgba(235, 239, 242, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    width: 35px;
+    border-radius: 3.5px;
+}
+
+.search-bottom-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 15px;
+}
+
+.custom-exercise {
+    background-color: #109CF1;
+    box-shadow: 0px 4px 10px 0px rgba(16, 156, 241, 0.24);
+    height: 22px;
+    font-size: 10px;
+    border-radius: 4px;
+}
+
+.hider-button {
+    display: flex;
+    align-items: center;
+}
+
+.hider-btn-text {
+    margin: 0;
+    margin-left: 10px;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.playground-right-body .ant-row {
+    margin: 0 !important;
+}
+
+.exercises-zone {
+    display: flex;
+    justify-content: center;
+}
+.droppable-area{
+    height:100%;
+    overflow-y: scroll;
+}

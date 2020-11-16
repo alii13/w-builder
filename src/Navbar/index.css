@@ -1,0 +1,30 @@
+.builder-navbar{
+    background-color: #fff;
+    height: 55px;
+    width: 100%;
+    display: flex;
+}
+.navbar-brand{
+    flex: 0.2;
+  
+}
+.right-navbar{
+    flex:0.8;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+   padding: 0 25px;
+}
+.nav-icons{
+    display: flex;
+}
+.icon-color{
+    color: #C2CFE0;
+    font-size: 20px;
+    margin: 0 8px;
+
+}
+.nav-demo,.nav-logout,.nav-notification {
+    display: grid;
+    place-items: center;
+}
