@@ -68,6 +68,10 @@
     color:#43474E;
     ;
 }
+.instruction-wrapper .ant-input:focus {
+    background-color:rgba(255, 185, 70, 0.4);
+
+}
 .instruction-wrapper .ant-input::placeholder { 
     color: rgba(51, 77, 110, 0.65);
 
@@ -84,4 +88,47 @@
       font-weight: 500;
       margin-top: 2px;
       margin-left: 2px;
+  }
+  .instruction-input-wrapper{
+      display: flex;
+      align-items: center;
+  }
+  .save-instruction-btn{
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    color:#2ED47A;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  .save-instruction-btn:active{
+    color:#2ed4798a;
+
+  }
+
+  .bg-transparent{
+      background: transparent !important;
+  }
+  .list-input{
+      margin: 2px 0px;
+      font-weight: 500;
+  }
+  .list-input-wrapper{
+      display: flex;
+      align-items: center;
+  }
+  .delete-list-item{
+      font-size: 20px;
+      color: #F7685B;
+      cursor: pointer;
+  }
+  .emoji{
+      display: grid;place-items: center;
+     
+  }
+  .delete-list-item:active{
+    color: #f7685b9d;
+    
+
   }

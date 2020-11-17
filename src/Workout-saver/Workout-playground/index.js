@@ -70,15 +70,12 @@ export default class index extends Component {
         selectedExerciseIds: newSelectedExerciseIds,
       });
     } else {
-
-
       // Moving from one list to another
       const startExerciseIDs = this.state.exerciseIds;
       const newStartExerciseIDs = Array.from(startExerciseIDs);
       let newSearchExercise;
       let correctSearchIndex = undefined,
         temp;
-
 
       if (
         this.state.searchExercises?.length > 0 &&
@@ -121,7 +118,6 @@ export default class index extends Component {
     this.dragStart(false);
   };
 
-  
   handleDragStart = (result) => {
     const { source } = result;
 
@@ -136,6 +132,24 @@ export default class index extends Component {
     });
   };
 
+  handleSelectedDelete = (data) => {
+    console.log(data);
+    let newSelectedExerciseIds = this.state.selectedExerciseIds;
+    let reAddIds=[];
+
+    data.forEach((data) => {
+      reAddIds.push(data.ExerciseName);
+      newSelectedExerciseIds.splice(data.index, 1);
+      console.log("id")
+    });
+
+    console.log(newSelectedExerciseIds,reAddIds);
+    this.setState({
+      selectedExerciseIds:newSelectedExerciseIds,
+      exerciseIds:[...this.state.exerciseIds,...reAddIds]
+    })
+  };
+
   render() {
     const selectedExercise = this.state.selectedExerciseIds.map(
       (exerciseId) => this.state.exerciseData[exerciseId]
@@ -143,6 +157,7 @@ export default class index extends Component {
     const exercises = this.state.exerciseIds.map(
       (exerciseId) => this.state.exerciseData[exerciseId]
     );
+  
 
     return (
       <DragDropContext
@@ -153,6 +168,7 @@ export default class index extends Component {
           <PlaygroundLeft
             selectedExercise={selectedExercise}
             dragStart={(click) => (this.dragStart = click)}
+            handleSelectedDelete={this.handleSelectedDelete}
           />
           <PlaygroundRight
             exercises={exercises}

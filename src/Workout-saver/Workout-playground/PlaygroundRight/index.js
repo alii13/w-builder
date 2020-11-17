@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Input, Switch, Row } from "antd";
+import { Button, Input, Switch, Tooltip } from "antd";
 import Exercise from "../Exercise-Structure";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { HiOutlineFilter } from "react-icons/hi";
@@ -10,42 +10,41 @@ export default class index extends Component {
     searchText: "",
     exercises: this.props.exercises,
     searchExercises: [],
+    hider: false,
   };
-  
-  static getDerivedStateFromProps(nextProps, prevState) {
 
+  static getDerivedStateFromProps(nextProps, prevState) {
     let newSearchExercises;
-    console.log(nextProps.draggedExerciseName)
     if (nextProps.draggedExerciseName !== "") {
       newSearchExercises = prevState.searchExercises.filter(
         (exercise) => exercise.ExerciseName !== nextProps.draggedExerciseName
       );
-      console.log(newSearchExercises)
+      console.log(newSearchExercises);
       return {
         searchExercises: newSearchExercises,
-
       };
     }
-    return null
+    return null;
   }
 
-
-
   handleHideExercise = (checked) => {
-    console.log(`switch to ${checked}`);
+    this.setState({
+      hider: checked,
+    });
   };
 
   handleSecChnage(value) {
     console.log(`selected ${value}`);
   }
   handleExerciseSearch = (e) => {
-    
     const searchExercises = this.props.exercises.filter((exercise) =>
-      exercise.ExerciseName.toLowerCase().includes(this.state.searchText.toLowerCase())
+      exercise.ExerciseName.toLowerCase().includes(
+        this.state.searchText.toLowerCase()
+      )
     );
 
     this.props.handleChildSearchExercises(searchExercises);
-   
+
     this.setState({
       searchText: e.target.value,
       searchExercises: searchExercises,
@@ -53,7 +52,6 @@ export default class index extends Component {
   };
 
   render() {
-    
     return (
       <>
         <div className="playground-right">
@@ -69,16 +67,21 @@ export default class index extends Component {
                 />
               </div>
               <div className="search-filter">
-                <Button type="default" className="filter-wrapper">
-                  <div className="filter-icon">
-                    <HiOutlineFilter className="filter-button" />
-                  </div>
-                </Button>
+                <Tooltip placement="top" title={"Filter Your Search"}>
+                  <Button type="default" className="filter-wrapper">
+                    <div className="filter-icon">
+                      <HiOutlineFilter className="filter-button" />
+                    </div>
+                  </Button>
+                </Tooltip>
               </div>
             </div>
             <div className="search-bottom-wrapper">
               <div className="hider-button">
-                <Switch defaultChecked onChange={this.handleHideExercise} />
+                <Switch
+                  value={this.state.hider}
+                  onChange={this.handleHideExercise}
+                />
                 <p className="hider-btn-text">Hide Tread Exercises</p>
               </div>
               <div className="custom-exercise-wrapper">
@@ -102,8 +105,9 @@ export default class index extends Component {
               >
                 {(provided) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {this.state.searchText === ""
-                      ? this.props.exercises&&this.props.exercises.map((exercise, index) => (
+                    {this.state.searchText === "" && this.state.hider == false
+                      ? this.props.exercises &&
+                        this.props.exercises.map((exercise, index) => (
                           <Exercise
                             ExerciseName={exercise.ExerciseName}
                             src={exercise.src}
@@ -113,7 +117,8 @@ export default class index extends Component {
                             alt={exercise.key}
                           />
                         ))
-                      : this.state.searchExercises.map((exercise, index) => (
+                      : this.state.hider == false
+                      ? this.state.searchExercises.map((exercise, index) => (
                           <Exercise
                             ExerciseName={exercise.ExerciseName}
                             src={exercise.src}
@@ -122,7 +127,8 @@ export default class index extends Component {
                             index={index}
                             alt={exercise.key}
                           />
-                        ))}
+                        ))
+                      : null}
                     {provided.placeholder}
                   </div>
                 )}

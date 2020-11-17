@@ -76,6 +76,7 @@
     margin-top: 4px;
     margin-left: 5px !important;
     margin-left: 2px;
+    cursor: pointer;
 }
 
 .playground-left-bottom-header {
@@ -142,6 +143,7 @@
     color: rgba(51, 77, 110, 0.45);
     font-weight: 600;
     margin: 0;
+    cursor: pointer !important;
 }
 
 .selected-exercise-right {
@@ -407,3 +409,36 @@ max-height: 150px;
 max-width: 150px;
 width: 100%;
 }
+.selected-exercise-wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 25px;
+}
+.instruction-input-wrapper{
+    display: flex;
+}
+.selected-exercise-instruction-input{
+    padding-left: 3%;
+}
+.selected-exercise-wrapper .ant-input {
+    background-color: rgba(255, 185, 70, 0.15);
+    height: 100%;
+    width: 100%;
+    color:#43474E;
+    ;
+}
+.selected-exercise-wrapper .ant-input:focus {
+    background-color:rgba(255, 185, 70, 0.4);
+
+}
+.selected-exercise-wrapper .ant-input::placeholder { 
+    color: rgba(51, 77, 110, 0.65);
+
+  }
+  .w-100{
+      width: 100%;
+  }
+  .m-0{
+      margin: 0 !important;
+  }
+  
