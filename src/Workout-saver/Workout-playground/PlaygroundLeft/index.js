@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Checkbox, Button, Select,Tooltip } from "antd";
+import { Checkbox, Button, Select, Tooltip } from "antd";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BiRepeat } from "react-icons/bi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
@@ -11,9 +11,8 @@ export default class index extends Component {
   state = {
     highlighterClass: "",
     selectedData: [],
-    selectedExercises:[]
+    selectedExercises: [],
   };
-
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let newSearchExercises = nextProps.selectedExercise;
@@ -25,12 +24,8 @@ export default class index extends Component {
     return null;
   }
 
-  onCheckboxChange = (e) => {
-    if (e.checked) {
-      // const checkForAlready = this.state.selectedData.map((data,index)=>{
-
-      // })
-
+  onCheckboxChange = (e, checked) => {
+    if (checked && e.checked === false) {
       const newSelectedData = [...this.state.selectedData, e];
       this.setState(
         {
@@ -40,9 +35,26 @@ export default class index extends Component {
           console.log(this.state.selectedData, "add");
         }
       );
+    } else if (checked && e.checked === true) {
+      let newSelectedData = this.state.selectedData;
+      newSelectedData[e.indexData] = {
+        ...newSelectedData[e.indexData],
+        sets: e.sets,
+        time: e.time,
+        rest: e.rest,
+        reps: e.reps,
+      };
+      this.setState(
+        {
+          selectedData: newSelectedData,
+        },
+        () => {
+          console.log(this.state.selectedData, "modified");
+        }
+      );
     } else {
       const newSelectedData = this.state.selectedData.filter(
-        (data) => data.ExerciseName !== e.ExerciseName
+        (data) => data.key !== e.key
       );
       this.setState(
         {
@@ -66,8 +78,8 @@ export default class index extends Component {
   handleDelete = () => {
     this.props.handleSelectedDelete(this.state.selectedData);
     this.setState({
-      selectedData:[]
-    })
+      selectedData: [],
+    });
   };
   componentDidMount() {
     this.props.dragStart(this.changeBorderColor);
@@ -75,7 +87,6 @@ export default class index extends Component {
 
   render() {
     const { Option } = Select;
-    console.log(this.state.selectedExercises)
 
     return (
       <>
@@ -124,25 +135,25 @@ export default class index extends Component {
               <div className="exercise-sets">
                 <p className="exercise-description">Sets</p>{" "}
                 <Tooltip placement="top" title={"Number of Sets"}>
-                <AiOutlineInfoCircle className="exercise-icon" />
+                  <AiOutlineInfoCircle className="exercise-icon" />
                 </Tooltip>
               </div>
               <div className="exercise-time">
                 <p className="exercise-description">Time</p>{" "}
                 <Tooltip placement="top" title={"Total Time for workout"}>
-                <AiOutlineInfoCircle className="exercise-icon" />
+                  <AiOutlineInfoCircle className="exercise-icon" />
                 </Tooltip>
               </div>
               <div className="exercise-rest">
                 <p className="exercise-description">Rest</p>{" "}
                 <Tooltip placement="top" title={"Rest Time"}>
-                <AiOutlineInfoCircle className="exercise-icon" />
+                  <AiOutlineInfoCircle className="exercise-icon" />
                 </Tooltip>
               </div>
               <div className="exercise-reps">
                 <p className="exercise-description">Reps</p>{" "}
                 <Tooltip placement="top" title={"Number of Repetitions"}>
-                <AiOutlineInfoCircle className="exercise-icon" />
+                  <AiOutlineInfoCircle className="exercise-icon" />
                 </Tooltip>
               </div>
             </div>

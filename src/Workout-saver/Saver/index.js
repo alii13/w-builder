@@ -45,8 +45,13 @@ export default class index extends Component {
         instructionList: newInstructionList,
       });
   }
-  handleEditInstructionList=(index)=>{
-
+  handleEditedInstructionListItem=(e,index)=>{
+    let newEditedInstructionList = this.state.instructionsList;
+     newEditedInstructionList[index] = e.target.value;
+    this.setState({
+      editedInstructionListItem:true,
+      instructionsList:newEditedInstructionList
+    })
   }
   render() {
     return (
@@ -79,16 +84,8 @@ export default class index extends Component {
                 value={this.state.instruction}
                 bordered={false}
                 onChange={this.handleInput}
+                onPressEnter={this.handleSaveInstructionForList}
               />
-              <div className="save-instruction-btn-wrapper">
-                {this.state.instruction !== "" ||
-                this.state.instructionsList.length > 0 ? (
-                  <AiFillCheckCircle
-                    className="save-instruction-btn"
-                    onClick={this.handleSaveInstructionForList}
-                  />
-                ) : null}
-              </div>
             </div>
             <ul className="instruction-list-wrapper">
               {this.state.instructionsList.map((instruction, index) => (
@@ -99,7 +96,7 @@ export default class index extends Component {
                       name="editedInstructionListItem"
                       value={instruction}
                       bordered={false}
-                      onChange={this.handleEditInstructionList}
+                      onChange={(e)=>this.handleEditedInstructionListItem(e,index)}
                     />
                     <TiDelete className="delete-list-item" onClick={()=>this.handleDeleteInstructionList(index)}/>
                   </div>

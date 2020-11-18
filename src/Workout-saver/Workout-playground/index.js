@@ -3,6 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { exercises } from "../../Exercises";
 import PlaygroundLeft from "./PlaygroundLeft";
 import PlaygroundRight from "./PlaygroundRight";
+import { v4 as uuidv4 } from "uuid";
 import "./index.css";
 
 export default class index extends Component {
@@ -33,6 +34,7 @@ export default class index extends Component {
         key,
       };
     });
+    exerciseIds.sort((a, b) => a.localeCompare(b))
 
     this.setState({
       exerciseIds: exerciseIds,
@@ -55,6 +57,11 @@ export default class index extends Component {
       destination.index === source.index
     ) {
       this.dragStart(false);
+      if(source.droppableId==="right-column"){
+        this.setState({
+          selectedExerciseIds: this.state.selectedExerciseIds.sort((a, b) => a.localeCompare(b))
+        });
+      }
       return;
     }
 
@@ -72,26 +79,22 @@ export default class index extends Component {
     } else {
       // Moving from one list to another
       const startExerciseIDs = this.state.exerciseIds;
-      const newStartExerciseIDs = Array.from(startExerciseIDs);
-      let newSearchExercise;
+      console.log(draggableId);
+      let newStartExerciseIDs = Array.from(startExerciseIDs);
       let correctSearchIndex = undefined,
         temp;
-
       if (
         this.state.searchExercises?.length > 0 &&
         startExerciseIDs[source.index] !==
-          this.state.searchExercises[source.index]
+          this.state.searchExercises[source.index]?.ExerciseName
       ) {
         temp = startExerciseIDs.filter((id, index) => {
-          if (id === this.state.searchExercises[source.index].ExerciseName) {
+          console.log(id, this.state.searchExercises[source.index].key);
+          if (id === this.state.searchExercises[source.index].key) {
             correctSearchIndex = index;
           }
         });
         console.log(correctSearchIndex, startExerciseIDs[correctSearchIndex]);
-        newSearchExercise = this.state.searchExercises.filter(
-          (exercise) =>
-            exercise.ExerciseName !== startExerciseIDs[correctSearchIndex]
-        );
       }
 
       newStartExerciseIDs.splice(
@@ -99,21 +102,38 @@ export default class index extends Component {
         1
       );
 
+      //modify the right side exercise after dragging
+
+      const newID = uuidv4();
+      const resExerciseName =
+        startExerciseIDs[
+          correctSearchIndex === undefined ? source.index : correctSearchIndex
+        ];
+      let draggedExerciseData = Object.assign(
+        {},
+        this.state.exerciseData[resExerciseName]
+      );
+      draggedExerciseData.key = newID;
+      newStartExerciseIDs.push(newID);
+
+      let newGlobalExerciseData = this.state.exerciseData;
+      newGlobalExerciseData[newID] = draggedExerciseData;
+
       const newFinishExerciseIDs = this.state.selectedExerciseIds;
       newFinishExerciseIDs.splice(destination.index, 0, draggableId);
+      console.log(newFinishExerciseIDs);
+      newStartExerciseIDs.sort((a, b) => a.localeCompare(b))
 
       const newState = {
         ...this.state,
         selectedExerciseIds: newFinishExerciseIDs,
         exerciseIds: newStartExerciseIDs,
         highlighterClass: "",
-        draggedExerciseName:
-          correctSearchIndex === undefined
-            ? ""
-            : startExerciseIDs[correctSearchIndex],
-        searchExercises: newSearchExercise,
+        searchExercises: [],
+        exerciseData: newGlobalExerciseData,
       };
       this.setState(newState);
+      this.dragEnd();
     }
     this.dragStart(false);
   };
@@ -133,31 +153,36 @@ export default class index extends Component {
   };
 
   handleSelectedDelete = (data) => {
-    console.log(data);
-    let newSelectedExerciseIds = this.state.selectedExerciseIds;
-    let reAddIds=[];
-
-    data.forEach((data) => {
-      reAddIds.push(data.ExerciseName);
-      newSelectedExerciseIds.splice(data.index, 1);
-      console.log("id")
+    const deleteIndexes = data.map((e, index) => {
+      return e.indexData;
     });
 
-    console.log(newSelectedExerciseIds,reAddIds);
+    console.log(deleteIndexes);
+
+    let newSelectedExerciseIds = this.state.selectedExerciseIds;
+
+    newSelectedExerciseIds = newSelectedExerciseIds.filter(function (
+      value,
+      index
+    ) {
+      return deleteIndexes.indexOf(index) === -1;
+    });
+
+    console.log(newSelectedExerciseIds);
+
     this.setState({
-      selectedExerciseIds:newSelectedExerciseIds,
-      exerciseIds:[...this.state.exerciseIds,...reAddIds]
-    })
+      selectedExerciseIds: newSelectedExerciseIds,
+    });
   };
 
   render() {
+  
     const selectedExercise = this.state.selectedExerciseIds.map(
       (exerciseId) => this.state.exerciseData[exerciseId]
     );
-    const exercises = this.state.exerciseIds.map(
+    const exercisesData = this.state.exerciseIds.map(
       (exerciseId) => this.state.exerciseData[exerciseId]
     );
-  
 
     return (
       <DragDropContext
@@ -171,9 +196,9 @@ export default class index extends Component {
             handleSelectedDelete={this.handleSelectedDelete}
           />
           <PlaygroundRight
-            exercises={exercises}
+            exercises={exercisesData}
+            dragEnd={(click) => (this.dragEnd = click)}
             isDropDisabled={this.state.isDropDisabled}
-            draggedExerciseName={this.state.draggedExerciseName}
             handleChildSearchExercises={this.handleSearchExercise}
           />
         </div>

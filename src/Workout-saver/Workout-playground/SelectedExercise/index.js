@@ -11,30 +11,27 @@ export default class index extends Component {
     showDiv: false,
     instruction: "",
     instructionsList: [],
-    editedInstructionListItem: "",
-    selectedExerciseData: {
-      instructionsList: [],
-      sets: 0,
-      reps: 0,
-      time: 0,
-      rest: 0,
-    },
+    editedInstructionListItem: false,
     sets: 0,
     time: 0,
     rest: 0,
     reps: "60s",
+    checkedDiv:undefined
   };
 
   onCheckboxChange = (e, data) => {
     const modifiedData = {
       ...data,
-      checked: e.target.checked,
+      checked: false,
       sets:this.state.sets,
       time:this.state.time,
       rest:this.state.rest,
       reps:this.state.reps
     };
-    this.props.handleCheckbox(modifiedData);
+    this.props.handleCheckbox(modifiedData,e.target.checked,false);
+    this.setState({
+      checkedDiv:e.target
+    })
   };
 
   showInstructionDiv = () => {
@@ -43,24 +40,81 @@ export default class index extends Component {
     });
   };
 
-  handleSeconds = (value) => {
+  handleSeconds = (value,data) => {
     this.setState({
       reps: value,
+    },()=>{
+      if(this.state.checkedDiv.checked){
+        const modifiedData = {
+          ...data,
+          checked: true,
+          sets:this.state.sets,
+          time:this.state.time,
+          rest:this.state.rest,
+          reps:this.state.reps
+        };
+        this.props.handleCheckbox(modifiedData,this.state.checkedDiv.checked);
+      }
     });
   };
-
-  handleInputChange = (e) => {
-    const name = e.target.name;
+  handleInput = (e) => {
+    const name= e.target.name
     this.setState({
       [name]: e.target.value,
     });
   };
-  handleSaveInstructionForList = () => {};
-  handleEditInstructionList = () => {};
-  handleDeleteInstructionList = () => {};
+
+  handleInputChange = (e,data) => {
+    const name = e.target.name;
+  
+    this.setState({
+      [name]: e.target.value,
+    },()=>{
+      if(this.state.checkedDiv?.checked){
+        const modifiedData = {
+          ...data,
+          checked: true,
+          sets:this.state.sets,
+          time:this.state.time,
+          rest:this.state.rest,
+          reps:this.state.reps
+        };
+        this.props.handleCheckbox(modifiedData,this.state.checkedDiv.checked);
+      }
+    });
+  };
+  handleSaveInstructionForList = () => {
+    let newInstructionList = this.state.instructionsList;
+    if (this.state.instruction !== "") {
+      newInstructionList.push(this.state.instruction);
+      this.setState({
+        instructionList: newInstructionList,
+        instruction: "",
+      });
+    }
+  };
+ 
+  handleEditedInstructionListItem=(e,index)=>{
+    let newEditedInstructionList = this.state.instructionsList;
+     newEditedInstructionList[index] = e.target.value;
+    this.setState({
+      editedInstructionListItem:true,
+      instructionsList:newEditedInstructionList
+    })
+  }
+  handleDeleteInstructionList=(index)=>{
+     
+    let newInstructionList = this.state.instructionsList;
+    newInstructionList.splice(index,1);
+
+    this.setState({
+        instructionList: newInstructionList,
+      });
+  }
   handleSelectedInstructionClose = () => {
     this.setState({
       showDiv: false,
+      editedInstructionListItem:false,
     });
   };
 
@@ -71,6 +125,10 @@ export default class index extends Component {
       indexData,
       ...this.props.exercise,
     };
+    const imageLinkArray = this.props.exercise.src.split("=");
+    const imageID = imageLinkArray[1];
+    const IMAGE_URL = `https://img.youtube.com/vi/${imageID}/hqdefault.jpg`;
+  
     return (
       <Draggable draggableId={this.props.exercise.key} index={this.props.index}>
         {(provided, snapshot) => (
@@ -97,14 +155,13 @@ export default class index extends Component {
                   <div className="selected-exercise-image-wrapper">
                     <img
                       className="selected-exercise-image"
-                      src="https://img.youtube.com/vi/JHdVMkRBuRA/hqdefault.jpg"
+                      src={IMAGE_URL}
                       alt="exercise"
                     />
                   </div>
                   <div className="selected-exercise-description">
                     <p className="selected-exercise-title">
-                      {this.props.exercise.ExerciseName +
-                        this.props.exercise.key}
+                      {this.props.exercise.ExerciseName }
                     </p>
                     <p
                       className="selected-exercise-instruction"
@@ -123,7 +180,7 @@ export default class index extends Component {
                     defaultValue="0"
                     value={this.state.sets}
                     placeholder="0"
-                    onChange={this.handleInputChange}
+                    onChange={(e)=>this.handleInputChange(e,data)}
                     type="number"
                     min="0"
                   />
@@ -134,7 +191,7 @@ export default class index extends Component {
                     value={this.state.time}
                     className="selected-exercise-input"
                     defaultValue="0"
-                    onChange={this.handleInputChange}
+                    onChange={(e)=>this.handleInputChange(e,data)}
                     placeholder="0"
                     type="number"
                     min="0"
@@ -145,7 +202,7 @@ export default class index extends Component {
                     name="rest"
                     value={this.state.rest}
                     className="selected-exercise-input"
-                    onChange={this.handleInputChange}
+                    onChange={(e)=>this.handleInputChange(e,data)}
                     placeholder="0"
                     type="number"
                     min="0"
@@ -154,7 +211,7 @@ export default class index extends Component {
                 <div className="exercise-rest">
                   <Select
                     name="reps"
-                    onChange={this.handleSeconds}
+                    onChange={(e)=>this.handleSeconds(e,data)}
                     value={this.state.reps}
                     className="res-seconds-btn"
                   >
@@ -183,33 +240,26 @@ export default class index extends Component {
                       className="selected-exercise-instruction-input"
                       bordered={false}
                       onChange={this.handleInputChange}
+                      onPressEnter={this.handleSaveInstructionForList}
                     />
-                    <div className="save-instruction-btn-wrapper">
-                      {this.state.instruction !== "" ||
-                      this.state.instructionsList.length > 0 ? (
-                        <AiFillCheckCircle
-                          className="save-instruction-btn"
-                          onClick={this.handleSaveInstructionForList}
-                        />
-                      ) : null}
-                    </div>
                   </div>
+
                   <ul
                     className={
                       this.state.instructionsList.length < 1
                         ? "instruction-list-wrapper m-0"
-                        : "instruction-list-wrapper"
+                        : "instruction-list-wrapper bottom-list"
                     }
                   >
                     {this.state.instructionsList.map((instruction, index) => (
                       <li className="list-input" key={index}>
-                        <div className="list-input-wrapper">
+                        <div className="list-input-wrapper bottom-item-list">
                           <Input
                             className="bg-transparent"
                             name="editedInstructionListItem"
                             value={instruction}
                             bordered={false}
-                            onChange={this.handleInputChange}
+                            onChange={(e)=>this.handleEditedInstructionListItem(e,index)}
                           />
                           <TiDelete
                             className="delete-list-item"

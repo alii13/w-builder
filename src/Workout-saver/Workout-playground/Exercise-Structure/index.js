@@ -8,6 +8,7 @@ export default function index(props) {
   const imageLinkArray = src.split("=");
   const imageID = imageLinkArray[1];
   const IMAGE_URL = `https://img.youtube.com/vi/${imageID}/hqdefault.jpg`;
+  
   return (
     <Draggable draggableId={props.exercise.key} index={props.index}>
       {(provided) => (

@@ -12,20 +12,17 @@ export default class index extends Component {
     searchExercises: [],
     hider: false,
   };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    let newSearchExercises;
-    if (nextProps.draggedExerciseName !== "") {
-      newSearchExercises = prevState.searchExercises.filter(
-        (exercise) => exercise.ExerciseName !== nextProps.draggedExerciseName
-      );
-      console.log(newSearchExercises);
-      return {
-        searchExercises: newSearchExercises,
-      };
-    }
-    return null;
+  componentDidMount() {
+    this.props.dragEnd(this.resetSearchState);
   }
+  resetSearchState=()=>{
+    this.setState({
+      searchExercises: [],
+      searchText:""
+    });
+  }
+
+
 
   handleHideExercise = (checked) => {
     this.setState({
@@ -37,11 +34,21 @@ export default class index extends Component {
     console.log(`selected ${value}`);
   }
   handleExerciseSearch = (e) => {
-    const searchExercises = this.props.exercises.filter((exercise) =>
-      exercise.ExerciseName.toLowerCase().includes(
-        this.state.searchText.toLowerCase()
-      )
-    );
+    const keywords = this.state.searchText.split(" ");
+
+    const searchExercises = this.props.exercises.filter(function (item) {
+      var valid = true;
+      for (var i = 0; i < keywords.length; i++) {
+        if (
+          item.ExerciseName.toLowerCase().indexOf(
+            keywords[i].toLocaleLowerCase()
+          ) === -1
+        ) {
+          valid = false;
+        }
+      }
+      return valid;
+    });
 
     this.props.handleChildSearchExercises(searchExercises);
 
@@ -49,9 +56,11 @@ export default class index extends Component {
       searchText: e.target.value,
       searchExercises: searchExercises,
     });
+    
   };
 
   render() {
+    
     return (
       <>
         <div className="playground-right">
@@ -105,7 +114,7 @@ export default class index extends Component {
               >
                 {(provided) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {this.state.searchText === "" && this.state.hider == false
+                    {this.state.searchText === "" && this.state.hider === false
                       ? this.props.exercises &&
                         this.props.exercises.map((exercise, index) => (
                           <Exercise

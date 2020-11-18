@@ -132,3 +132,16 @@
     
 
   }
+  .instruction-list-wrapper{
+    list-style-type: "🔔" !important ;
+    padding-left: 20px;
+    background-color: #2ed47986;
+    margin:0
+  }
+  .list-input-wrapper{
+    
+  }
+  .list-input-wrapper .ant-input{
+      width: 190px;
+      font-weight: 500;
+  }

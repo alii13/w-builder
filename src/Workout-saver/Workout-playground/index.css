@@ -412,7 +412,7 @@ width: 100%;
 .selected-exercise-wrapper{
     display: flex;
     flex-direction: column;
-    height: 25px;
+
 }
 .instruction-input-wrapper{
     display: flex;
@@ -441,4 +441,15 @@ width: 100%;
   .m-0{
       margin: 0 !important;
   }
+ 
+  .bottom-item-list .ant-input{
+    font-weight: 500;
+
+  }
   
+  .bottom-list{
+      list-style-type: "💪" !important ;
+      background-color: #89ebb5;
+      margin: 0;
+      z-index: 1000;
+  }
