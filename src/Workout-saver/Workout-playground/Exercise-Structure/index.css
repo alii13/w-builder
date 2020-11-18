@@ -7,16 +7,17 @@
     margin: 0 3px;
     z-index: 1;
 }
-.exercise-image-wrapper{
+
+.exercise-image-wrapper {
     height: 100px;
     overflow: hidden;
-    
 }
+
 .exercise-image {
     width: auto;
     height: 100%;
     transform: scale(1.35);
-    object-fit: cover ;
+    object-fit: cover;
     border-radius: 4px 4px 0px 0px;
 }
 
@@ -26,9 +27,8 @@
     text-align: center;
     margin: 0 auto;
     color: #43474E;
-   
 }
-.gutter-col-adder{
-    margin: 10px 0;
 
+.gutter-col-adder {
+    margin: 10px 0;
 }
